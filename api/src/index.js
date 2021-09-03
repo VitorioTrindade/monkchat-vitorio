@@ -150,6 +150,19 @@ app.delete('/chat/:id', async (req, resp) => {
 })
 
 
+app.put('/chat/:id', async (req, resp) => {
+    try {
+        let id = req.params.id;
+        let msg = req.body.mensagem;
+
+        let r = await db.tb_chat.update({ds_mensagem: msg}, { where: { id_chat: id }});
+
+        resp.sendStatus(200)
+    } catch (e) {
+        resp.send({ erro: e.toString() });
+    }
+})
+
 
 app.listen(process.env.PORT,
            x => console.log(`>> Server up at port ${process.env.PORT}`))

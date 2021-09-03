@@ -23,6 +23,7 @@ const ContainerCabecalho = styled.div`
 
     .titulo {
         font: 700 2.2em Montserrat;
+        margin-right: 0.5em;
     }
 
 
@@ -31,7 +32,22 @@ const ContainerCabecalho = styled.div`
     }
 `
 
+const BotaoSair = styled.button`
+    font: 700 1em Montserrat;
+    margin-top: 0.75em;
+    cursor: pointer;
+
+    outline: none;
+    border: none;
+
+    color: #ffffff;
+    background-color: #583BBF; 
+
+    &:hover {
+        background: linear-gradient(180deg, #BA9D4C -10.17%, #583BBF 115.25%);
+        border-radius: 1em;
+    }
+`
 
 
-
-export { Barra, ContainerCabecalho }
+export { Barra, ContainerCabecalho, BotaoSair }

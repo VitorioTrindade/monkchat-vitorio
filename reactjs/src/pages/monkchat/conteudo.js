@@ -27,10 +27,12 @@ export default function Conteudo() {
     const navigation = useHistory();
     let usuarioLogado = lerUsuarioLogado(navigation);
 
+    const [idAlterando, setIdAlterando] = useState(0);
     const [chat, setChat] = useState([]);
     const [sala, setSala] = useState('');
     const [usu, setUsu] = useState(usuarioLogado.nm_usuario);
     const [msg, setMsg] = useState('')
+
 
     const loading = useRef(null);
 
@@ -54,14 +56,27 @@ export default function Conteudo() {
     }
 
     const enviarMensagem = async (event) => {
-        if (!(event && event.ctrlKey && event.charCode == 13))
-            return;
-
-        const resp = await api.inserirMensagem(sala, usu, msg);
-        if (!validarResposta(resp)) 
+        if (event.type === "keypress" && (!event.ctrlKey || event.charCode !== 13))
             return;
         
-        toast.dark('💕 Mensagem enviada com sucesso!');
+        if (idAlterando > 0) {
+
+            const resp = await api.alterarMensagem(idAlterando, msg);
+            if (!validarResposta(resp))
+                return;
+
+            toast.dark('💕 Mensagem alterada com sucesso!');
+            setIdAlterando(0);
+            setMsg('');
+
+        } else {
+            const resp = await api.inserirMensagem(sala, usu, msg);
+            if (!validarResposta(resp)) 
+                return;
+            
+            toast.dark('💕 Mensagem enviada com sucesso!');
+        } 
+
         await carregarMensagens();
     }
 
@@ -91,6 +106,11 @@ export default function Conteudo() {
         toast.dark('💕 Mensagem apagada!');
         await carregarMensagens();
     }
+
+    async function editar (item) {
+        setMsg(item.ds_mensagem);
+        setIdAlterando(item.id_chat)
+    } 
     
     return (
         <ContainerConteudo>
@@ -128,7 +148,8 @@ export default function Conteudo() {
                     {chat.map(x =>
                         <div key={x.id_chat}>
                             <div className="chat-message">
-                                <div> <img onClick={() => remover(x.id_chat)} src="/assets/images/delete.svg" alt="" style={{cursor: 'pointer'}}/> </div>
+                                <div> <img onClick={() => editar(x)} src="/assets/images/big floppa.png"  alt="" style={{cursor: 'pointer'}, {height: '2em'}, {width: '2em'}} /> </div>
+                                <div> <img onClick={() => remover(x.id_chat)} src="/assets/images/delete.svg" alt="" style={{cursor: 'pointer'}} /> </div>
                                 <div>({new Date(x.dt_mensagem.replace('Z', '')).toLocaleTimeString()})</div>
                                 <div><b>{x.tb_usuario.nm_usuario}</b> fala para <b>Todos</b>:</div>
                                 <div> {x.ds_mensagem} </div>
