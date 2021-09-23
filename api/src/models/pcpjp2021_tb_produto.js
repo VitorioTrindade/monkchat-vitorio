@@ -1,34 +1,54 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class tb_chat extends Model {
+export default class pcpjp2021_tb_produto extends Model {
   static init(sequelize, DataTypes) {
   super.init({
-    id_chat: {
+    id_produto: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    id_sala: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
     id_usuario: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    ds_mensagem: {
-      type: DataTypes.STRING(100),
+    nm_produto: {
+      type: DataTypes.STRING(200),
       allowNull: true
     },
-    dt_mensagem: {
-      type: DataTypes.DATE,
+    ds_categoria: {
+      type: DataTypes.STRING(200),
+      allowNull: true
+    },
+    nr_codigo: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    qtd_atual: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    qtd_minima: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    vl_custo: {
+      type: DataTypes.DECIMAL(10,2),
+      allowNull: true
+    },
+    vl_venda: {
+      type: DataTypes.DECIMAL(10,2),
+      allowNull: true
+    },
+    dt_cadastro: {
+      type: DataTypes.DATEONLY,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'tb_chat',
+    tableName: 'pcpjp2021_tb_produto',
     timestamps: false,
     indexes: [
       {
@@ -36,14 +56,7 @@ export default class tb_chat extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_chat" },
-        ]
-      },
-      {
-        name: "id_sala",
-        using: "BTREE",
-        fields: [
-          { name: "id_sala" },
+          { name: "id_produto" },
         ]
       },
       {
@@ -55,6 +68,6 @@ export default class tb_chat extends Model {
       },
     ]
   });
-  return tb_chat;
+  return pcpjp2021_tb_produto;
   }
 }

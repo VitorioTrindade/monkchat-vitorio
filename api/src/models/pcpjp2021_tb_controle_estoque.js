@@ -1,34 +1,38 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class tb_chat extends Model {
+export default class pcpjp2021_tb_controle_estoque extends Model {
   static init(sequelize, DataTypes) {
   super.init({
-    id_chat: {
+    id_controle_estoque: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    id_sala: {
+    id_produto: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    id_usuario: {
+    qtd_produtos: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    ds_mensagem: {
-      type: DataTypes.STRING(100),
+    ds_movimentacao: {
+      type: DataTypes.STRING(200),
       allowNull: true
     },
-    dt_mensagem: {
-      type: DataTypes.DATE,
+    vl_lucro: {
+      type: DataTypes.DECIMAL(10,2),
+      allowNull: true
+    },
+    dt_movimentacao: {
+      type: DataTypes.DATEONLY,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'tb_chat',
+    tableName: 'pcpjp2021_tb_controle_estoque',
     timestamps: false,
     indexes: [
       {
@@ -36,25 +40,18 @@ export default class tb_chat extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_chat" },
+          { name: "id_controle_estoque" },
         ]
       },
       {
-        name: "id_sala",
+        name: "id_produto",
         using: "BTREE",
         fields: [
-          { name: "id_sala" },
-        ]
-      },
-      {
-        name: "id_usuario",
-        using: "BTREE",
-        fields: [
-          { name: "id_usuario" },
+          { name: "id_produto" },
         ]
       },
     ]
   });
-  return tb_chat;
+  return pcpjp2021_tb_controle_estoque;
   }
 }
